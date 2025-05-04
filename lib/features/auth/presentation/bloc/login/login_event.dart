@@ -10,11 +10,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 //
 //
 // }
+import 'package:equatable/equatable.dart';
 
-abstract class LoginEvent {}
+abstract class LoginEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
-class LoginSubmitted extends LoginEvent {
+class LoginRequested extends LoginEvent {
   final String phone;
 
-  LoginSubmitted(this.phone);
+  LoginRequested(this.phone);
+
+  @override
+  List<Object?> get props => [phone];
 }

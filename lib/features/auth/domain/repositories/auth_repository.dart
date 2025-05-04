@@ -1,14 +1,12 @@
 
-import '../entities/login_response.dart';
+import '../entities/login/login_response.dart';
+import '../entities/profile/profile_entity.dart';
 import '../entities/verify/verify_responce.dart';
 
 
 abstract class AuthRepository {
-  Future<LoginEntity> login(String phone);
+  Future<LoginResponse> login(String phone);
 
-  Future<VerifyResponse> verifyPhone({
-    required String phone,
-    required String code,
-    required String deviceId,
-  });
+  Future<VerifyResponse> verify(String phone, String code, String deviceId);
+  Future<ProfileEntity> getProfile();
 }

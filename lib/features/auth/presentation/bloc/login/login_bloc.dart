@@ -28,25 +28,24 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/usecases/login_usecase.dart';
+import '../../../domain/repositories/auth_repository.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
+
+
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final LoginUseCase useCase;
+  final AuthRepository repository;
 
-  LoginBloc(this.useCase) : super(LoginInitial());
-
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginSubmitted) {
-      yield LoginLoading();
+  LoginBloc(this.repository) : super(LoginInitial()) {
+    on<LoginRequested>((event, emit) async {
+      emit(LoginLoading());
       try {
-        final otp = await useCase.execute(event.phone);
-        yield LoginSuccess(otp);
+        final otp = await repository.login(event.phone);
+        emit(LoginSuccess(otp as String));
       } catch (e) {
-        yield LoginError('Failed to login: ${e.toString()}');
+        emit(LoginFailure(e.toString()));
       }
-    }
+    });
   }
 }

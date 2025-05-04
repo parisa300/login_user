@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/auth/data/repository/auth_repository_impl.dart';
 import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/domain/usecases/verify_use_case.dart';
-import 'features/auth/presentation/bloc/login_bloc.dart';
+import 'features/auth/presentation/bloc/login/login_bloc.dart';
 import 'features/auth/presentation/bloc/verify/verify_bloc.dart';
 import 'features/auth/presentation/page/login_page.dart';
 

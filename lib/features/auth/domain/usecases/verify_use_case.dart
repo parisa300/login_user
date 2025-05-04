@@ -1,6 +1,5 @@
 import '../entities/verify/verify_responce.dart';
 import '../repositories/auth_repository.dart';
-
 class VerifyUseCase {
   final AuthRepository repository;
 
@@ -11,10 +10,6 @@ class VerifyUseCase {
     required String code,
     required String deviceId,
   }) {
-    return repository.verifyPhone(
-      phone: phone,
-      code: code,
-      deviceId: deviceId,
-    );
+    return repository.verify(phone, code, deviceId);
   }
 }

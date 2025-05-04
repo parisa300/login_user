@@ -1,16 +1,14 @@
 
-import '../../data/repository/auth_repository_impl.dart';
-import '../entities/login_response.dart';
+
+import '../entities/login/login_response.dart';
 import '../repositories/auth_repository.dart';
 
 class LoginUseCase {
-  final AuthRepositoryImpl repository;
+  final AuthRepository repository;
 
-  // Constructor that accepts AuthRepositoryImpl
   LoginUseCase(this.repository);
 
-  // Method to execute login
-  Future<String> execute(String phone) async {
-    return await repository.login(phone);
+  Future<LoginResponse> call(String phone) {
+    return repository.login(phone);
   }
 }

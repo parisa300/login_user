@@ -53,16 +53,23 @@ class _VerifyScreenState extends State<VerifyScreen> {
   }
 
   void submit() {
-    if (deviceId != null) {
+    final code = _codeController.text.trim();
+
+    if (deviceId != null && code.isNotEmpty) {
       context.read<VerifyBloc>().add(
-        VerifySubmitted(
-          widget.phone,
-          _codeController.text,
-          deviceId!,
+        VerifyRequested(
+          phone: widget.phone,
+          code: code,
+          deviceId: deviceId!,
         ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('کد تأیید را وارد کنید')),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,31 +78,41 @@ class _VerifyScreenState extends State<VerifyScreen> {
       body: BlocBuilder<VerifyBloc, VerifyState>(
         builder: (context, state) {
           if (state is VerifyLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is VerifySuccess) {
-            return Center(child: Text('Access Granted!'));
-          } else if (state is VerifyFailure) {
-            return Center(child: Text('Error: ${state.error}'));
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state is VerifySuccess) {
+            // Navigate to home screen or show success message
+            return const Center(child: Text('Access Granted!'));
+          }
+
+          if (state is VerifyFailure) {
+            return Center(child: Text('خطا: ${state.message}'));
           }
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Time left: ${countdown}s'),
+                Text('زمان باقی‌مانده: ${countdown}s'),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _codeController,
-                  decoration: InputDecoration(labelText: 'کد ورد وارد نمایید'),
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'کد ورود را وارد نمایید'),
                 ),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: submit,
-                  child: Text('ثبت کد فعال سازی'),
+                  child: const Text('ثبت کد فعال‌سازی'),
                 ),
               ],
             ),
           );
         },
       ),
+
     );
   }
 }

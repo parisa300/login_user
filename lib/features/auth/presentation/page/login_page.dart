@@ -1,11 +1,9 @@
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/login_bloc.dart';
-import '../bloc/login_event.dart';
-import '../bloc/login_state.dart';
+import '../bloc/login/login_bloc.dart';
+import '../bloc/login/login_event.dart';
+import '../bloc/login/login_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,14 +20,15 @@ class _LoginPageState extends State<LoginPage> {
     final phone = _phoneController.text.trim();
 
     if (phone.length == 11 && phone.startsWith('09') && _agreedToTerms) {
-      // Dispatch the event to the BLoC for login submission
-      context.read<LoginBloc>().add(LoginSubmitted(phone));
+      // Dispatch the LoginRequested event
+      context.read<LoginBloc>().add(LoginRequested(phone));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('لطفاً شماره صحیح وارد کرده و قوانین را تایید نمایید')),
       );
     }
   }
+
 
   @override
   void dispose() {
@@ -105,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('کد ارسال شد: ${state.otp}')),
                       );
-                    } else if (state is LoginError) {
+                    } else if (state is LoginFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('خطا: ${state.message}')),
                       );
