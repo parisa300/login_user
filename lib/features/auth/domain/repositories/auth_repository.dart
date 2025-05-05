@@ -8,5 +8,5 @@ abstract class AuthRepository {
   Future<LoginResponse> login(String phone);
 
   Future<VerifyResponse> verify(String phone, String code, String deviceId);
-  Future<ProfileEntity> getProfile();
+
 }

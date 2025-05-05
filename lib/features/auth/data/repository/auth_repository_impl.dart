@@ -27,11 +27,6 @@ import '../model/profile/profile_model.dart';
       deviceId: deviceId,
     );
   }
-  @override
-  Future<ProfileModel> getProfile(String phone)  {
-    return remoteDataSource.profile(
-      phone: phone,
-    );
-   }
+
   }
 

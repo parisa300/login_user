@@ -3,7 +3,10 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/profile/profile_entity.dart';
 
+
 abstract class ProfileState extends Equatable {
+  const ProfileState();
+
   @override
   List<Object?> get props => [];
 }
@@ -15,7 +18,7 @@ class ProfileLoading extends ProfileState {}
 class ProfileLoaded extends ProfileState {
   final ProfileEntity profile;
 
-  ProfileLoaded(this.profile);
+  const ProfileLoaded(this.profile);
 
   @override
   List<Object?> get props => [profile];
@@ -24,7 +27,7 @@ class ProfileLoaded extends ProfileState {
 class ProfileError extends ProfileState {
   final String message;
 
-  ProfileError(this.message);
+  const ProfileError(this.message);
 
   @override
   List<Object?> get props => [message];

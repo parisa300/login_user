@@ -1,13 +1,14 @@
 
 import '../entities/profile/profile_entity.dart';
-import '../repositories/auth_repository.dart';
+import '../repositories/profile_repository.dart';
 
-class GetProfileUseCase {
-  final AuthRepository repository;
 
-  GetProfileUseCase(this.repository);
+class GetProfile {
+  final ProfileRepository repository;
 
-  Future<ProfileEntity> call() async {
-    return await repository.getProfile();
+  GetProfile(this.repository);
+
+  Future<ProfileEntity> call(String accessToken) {
+    return repository.getProfile(accessToken);
   }
 }

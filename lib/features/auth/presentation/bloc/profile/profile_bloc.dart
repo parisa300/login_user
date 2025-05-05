@@ -1,17 +1,18 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neww/features/auth/presentation/bloc/profile/profile_event.dart';
+import 'package:neww/features/auth/presentation/bloc/profile/profile_state.dart';
 import '../../../domain/usecases/profile_usecase.dart';
-import 'profile_event.dart';
-import 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final GetProfileUseCase getProfileUseCase;
+  final GetProfile getProfile;
 
-  ProfileBloc(this.getProfileUseCase) : super(ProfileInitial()) {
-    on<LoadProfile>((event, emit) async {
+  ProfileBloc(this.getProfile) : super(ProfileInitial()) {
+    on<GetProfileEvent>((event, emit) async {
       emit(ProfileLoading());
       try {
-        final profile = await getProfileUseCase();
+        final profile = await getProfile(event.accessToken);
         emit(ProfileLoaded(profile));
       } catch (e) {
         emit(ProfileError(e.toString()));
