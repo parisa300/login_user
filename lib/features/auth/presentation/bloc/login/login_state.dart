@@ -11,11 +11,12 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final String otp;
+  final String phone; // Include phone number
 
-  LoginSuccess(this.otp);
+  LoginSuccess({required this.otp, required this.phone});
 
   @override
-  List<Object?> get props => [otp];
+  List<Object?> get props => [otp, phone];
 }
 
 class LoginFailure extends LoginState {

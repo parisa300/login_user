@@ -8,7 +8,7 @@ class GetProfile {
 
   GetProfile(this.repository);
 
-  Future<ProfileEntity> call(String accessToken) {
-    return repository.getProfile(accessToken);
+  Future<ProfileEntity> call() {
+    return repository.getProfile();
   }
 }

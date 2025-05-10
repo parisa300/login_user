@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neww/features/auth/presentation/page/verify_page.dart';
 import '../bloc/login/login_bloc.dart';
 import '../bloc/login/login_event.dart';
 import '../bloc/login/login_state.dart';
@@ -20,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
     final phone = _phoneController.text.trim();
 
     if (phone.length == 11 && phone.startsWith('09') && _agreedToTerms) {
-      // Dispatch the LoginRequested event
       context.read<LoginBloc>().add(LoginRequested(phone));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -28,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
-
 
   @override
   void dispose() {
@@ -38,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality( // برای راست‌چین شدن
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: const Color(0xFFFFFEF8),
@@ -84,25 +83,19 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const Spacer(),
-                ElevatedButton(
-                  onPressed: _sendPhoneNumber,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF26C6DA),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text("ارسال"),
-                ),
-                BlocListener<LoginBloc, LoginState>(
+
+                /// 👇 دکمه ارسال با BlocConsumer
+                BlocConsumer<LoginBloc, LoginState>(
                   listener: (context, state) {
-                    if (state is LoginLoading) {
-                      // Show loading indicator or progress bar
-                      // You can implement a loading widget or show a progress indicator here
-                    } else if (state is LoginSuccess) {
+                    if (state is LoginSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('کد ارسال شد: ${state.otp}')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VerifyScreen(phone: state.phone),
+                        ),
                       );
                     } else if (state is LoginFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -110,7 +103,29 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   },
-                  child: Container(),
+                  builder: (context, state) {
+                    final isLoading = state is LoginLoading;
+                    return ElevatedButton(
+                      onPressed: isLoading ? null : _sendPhoneNumber,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF26C6DA),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                          : const Text("ارسال"),
+                    );
+                  },
                 ),
               ],
             ),
@@ -120,4 +135,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
 

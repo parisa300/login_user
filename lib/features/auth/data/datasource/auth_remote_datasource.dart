@@ -11,6 +11,8 @@ import '../model/verify/verify_response_model.dart';
 class AuthRemoteDataSource {
   final Dio _dio = DioClient().dio;
 
+  //AuthRemoteDataSource(Dio dio);
+
   Future<LoginResponseModel> login(String phone) async {
     final response = await _dio.post('accounts/login/', data: {
       'phone': phone,

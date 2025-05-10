@@ -10,7 +10,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
   ProfileRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<ProfileEntity> getProfile(String accessToken) {
-    return remoteDataSource.getProfile(accessToken);
+  Future<ProfileEntity> getProfile() {
+    return remoteDataSource.getProfile();
+  }
+  
+  @override
+  Future<ProfileEntity> updateProfile(ProfileEntity profile) {
+    return remoteDataSource.updateProfile(profile);
   }
 }

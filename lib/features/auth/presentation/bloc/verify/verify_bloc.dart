@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:neww/features/auth/domain/usecases/verify_use_case.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../domain/repositories/auth_repository.dart';
 import 'verify_event.dart';
@@ -6,16 +7,16 @@ import 'verify_state.dart';
 
 
 class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
-  final AuthRepository repository;
+  final VerifyUseCase verifyUseCase;
 
-  VerifyBloc(this.repository) : super(VerifyInitial()) {
+  VerifyBloc(this.verifyUseCase) : super(VerifyInitial()) {
     on<VerifyRequested>((event, emit) async {
       emit(VerifyLoading());
       try {
-        final tokens = await repository.verify(
-          event.phone,
-          event.code,
-          event.deviceId,
+        final tokens = await verifyUseCase(
+         phone:  event.phone,
+         code:  event.code,
+         deviceId:  event.deviceId,
         );
 
 

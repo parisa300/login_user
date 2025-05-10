@@ -5,10 +5,9 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class GetProfileEvent extends ProfileEvent {
-  final String accessToken;
 
-  const GetProfileEvent(this.accessToken);
+  const GetProfileEvent();
 
   @override
-  List<Object> get props => [accessToken];
+  List<Object> get props => [];
 }

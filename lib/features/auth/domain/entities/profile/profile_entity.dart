@@ -4,19 +4,19 @@
 import 'package:equatable/equatable.dart';
 
 class ProfileEntity extends Equatable {
-  final String phone;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String address;
-  final String postalCode;
-  final String fixedNumber;
-  final String gender;
-  final String nationalCode;
-  final String cardNumber;
-  final String profileImage;
-  final String birthDate;
-  final String shebaNumber;
+  final String? phone;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? address;
+  final String? postalCode;
+  final String? fixedNumber;
+  final String? gender;
+  final String? nationalCode;
+  final String? cardNumber;
+  final String? profileImage;
+  final String? birthDate;
+  final String? shebaNumber;
 
   const ProfileEntity({
     required this.phone,
